@@ -152,7 +152,8 @@ func @ops_memory(%arg0 : !llvm.i32) {
 // https://llvm.org/docs/LangRef.html#conversion-operations
 func @ops_conversion(%arg0: !llvm.i32, %arg1: !llvm.i64,
   %arg2: !llvm<"<4 x i32>">, %arg3: !llvm<"<4 x i64>">,
-  %arg4 : !llvm<"double*">, %arg5 : !llvm<"i32*">) {
+  %arg4 : !llvm<"double*">, %arg5 : !llvm<"i32*">,
+  %arg6 : !llvm.float ) {
 // CHECK-LABEL: @ops_conversion
 
   // CHECK-NEXT: %0 = llvm.trunc %arg1 : !llvm.i64 to !llvm.i56
@@ -169,13 +170,26 @@ func @ops_conversion(%arg0: !llvm.i32, %arg1: !llvm.i64,
   %4 = llvm.sext %arg2 : !llvm<"<4 x i32>"> to !llvm<"<4 x i56>">
   %5 = llvm.zext %arg2 : !llvm<"<4 x i32>"> to !llvm<"<4 x i64>">
 
-  // CHECK-NEXT:  %6 = llvm.ptrtoint %arg5 : !llvm<"i32*"> to !llvm.i32
-  // CHECK-NEXT:  %7 = llvm.inttoptr %arg0 : !llvm.i32 to !llvm<"i32*">
-  %6 = llvm.ptrtoint %arg5 : !llvm<"i32*"> to !llvm.i32
-  %7 = llvm.inttoptr %arg0 : !llvm.i32 to !llvm<"i32*">
+  // CHECK-NEXT: %6 = llvm.fptrunc %arg6 : !llvm.float to !llvm.half
+  // CHECK-NEXT: %7 = llvm.fpext %arg6 : !llvm.float to !llvm.double
+  // CHECK-NEXT: %8 = llvm.fptoui %arg6 : !llvm.float to !llvm.i32
+  // CHECK-NEXT: %9 = llvm.fptosi %arg6 : !llvm.float to !llvm.i32
+  // CHECK-NEXT: %10 = llvm.uitofp %arg0 : !llvm.i32 to !llvm.float
+  // CHECK-NEXT: %11 = llvm.sitofp %arg0 : !llvm.i32 to !llvm.float
+  %6 = llvm.fptrunc %arg6 : !llvm.float to !llvm.half
+  %7 = llvm.fpext %arg6 : !llvm.float to !llvm.double
+  %8 = llvm.fptoui %arg6 : !llvm.float to !llvm.i32
+  %9 = llvm.fptosi %arg6 : !llvm.float to !llvm.i32
+  %10 = llvm.uitofp %arg0 : !llvm.i32 to !llvm.float
+  %11 = llvm.sitofp %arg0 : !llvm.i32 to !llvm.float
 
-  // CHECK-NEXT:  %8 = llvm.bitcast %arg4 : !llvm<"double*"> to !llvm<"i64*">
-  %8 = llvm.bitcast %arg4 : !llvm<"double*"> to !llvm<"i64*">
+  // CHECK-NEXT:  %12 = llvm.ptrtoint %arg5 : !llvm<"i32*"> to !llvm.i32
+  // CHECK-NEXT:  %13 = llvm.inttoptr %arg0 : !llvm.i32 to !llvm<"i32*">
+  %12 = llvm.ptrtoint %arg5 : !llvm<"i32*"> to !llvm.i32
+  %13 = llvm.inttoptr %arg0 : !llvm.i32 to !llvm<"i32*">
+
+  // CHECK-NEXT:  %14 = llvm.bitcast %arg4 : !llvm<"double*"> to !llvm<"i64*">
+  %14 = llvm.bitcast %arg4 : !llvm<"double*"> to !llvm<"i64*">
 
   llvm.return
 }

@@ -92,8 +92,20 @@ func @ops_binary_float(%arg0 : !llvm.float) {
 
 // Bitwise binary ops
 // https://llvm.org/docs/LangRef.html#bitwise-binary-operations
-func @ops_bitwise_binary() {
+func @ops_bitwise_binary(%arg0 : !llvm.i32) {
 // CHECK-LABEL: @ops_bitwise_binary
+  // CHECK-NEXT:  %0 = llvm.shl %arg0, %arg0 : !llvm.i32
+  // CHECK-NEXT:  %1 = llvm.lshr %arg0, %arg0 : !llvm.i32
+  // CHECK-NEXT:  %2 = llvm.ashr %arg0, %arg0 : !llvm.i32
+  // CHECK-NEXT:  %3 = llvm.and %arg0, %arg0 : !llvm.i32
+  // CHECK-NEXT:  %4 = llvm.or %arg0, %arg0 : !llvm.i32
+  // CHECK-NEXT:  %5 = llvm.xor %arg0, %arg0 : !llvm.i32
+  %0 = llvm.shl %arg0, %arg0 : !llvm.i32
+  %1 = llvm.lshr %arg0, %arg0 : !llvm.i32
+  %2 = llvm.ashr %arg0, %arg0 : !llvm.i32
+  %3 = llvm.and %arg0, %arg0 : !llvm.i32
+  %4 = llvm.or %arg0, %arg0 : !llvm.i32
+  %5 = llvm.xor %arg0, %arg0 : !llvm.i32
 
   llvm.return
 }

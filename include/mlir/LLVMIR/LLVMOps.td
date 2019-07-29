@@ -129,6 +129,11 @@ def LLVM_UDivOp : LLVM_ArithmeticOp<"udiv", "CreateUDiv">;
 def LLVM_SDivOp : LLVM_ArithmeticOp<"sdiv", "CreateSDiv">;
 def LLVM_URemOp : LLVM_ArithmeticOp<"urem", "CreateURem">;
 def LLVM_SRemOp : LLVM_ArithmeticOp<"srem", "CreateSRem">;
+
+// Bitwise binary operations.
+def LLVM_ShiftLeftOp : LLVM_ArithmeticOp<"shl", "CreateShl">;
+def LLVM_LogicalShirtRightOp : LLVM_ArithmeticOp<"lshr", "CreateLShr">;
+def LLVM_ArithmeticShiftRightOp : LLVM_ArithmeticOp<"ashr", "CreateAShr">;
 def LLVM_AndOp : LLVM_ArithmeticOp<"and", "CreateAnd">;
 def LLVM_OrOp : LLVM_ArithmeticOp<"or", "CreateOr">;
 def LLVM_XOrOp : LLVM_ArithmeticOp<"xor", "CreateXor">;
